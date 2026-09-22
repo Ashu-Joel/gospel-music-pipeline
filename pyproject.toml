@@ -1,0 +1,25 @@
+[project]
+name = "gospel-music-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "ASHU JOEL", email = "ashujoel88@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "dbt-core>=1.12.5",
+    "dbt-duckdb>=1.11.0",
+    "dlt[motherduck]>=1.30.0",
+    "matplotlib>=3.11.2",
+    "pandas>=3.0.6",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+gospel-music-pipeline = "gospel_music_pipeline:main"
+
+[build-system]
+requires = ["uv_build>=0.12.14,<0.13.0"]
+build-backend = "uv_build"
