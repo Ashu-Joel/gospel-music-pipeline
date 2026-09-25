@@ -22,8 +22,8 @@ channel_ids = list({
 
 channels = get_channel_details(channel_ids)
 
-print(f"Refreshed {len(videos)} videos")
-print(f"Refreshed {len(channels)} channels")
+print(f"Updated {len(videos)} videos")
+print(f"Updated {len(channels)} channels")
 
 
 
