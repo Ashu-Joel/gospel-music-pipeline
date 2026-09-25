@@ -13,9 +13,11 @@ dependencies = [
     "dlt[motherduck]>=1.30.0",
     "matplotlib>=3.11.2",
     "pandas>=3.0.6",
+    "pypdf>=6.19.0",
     "pytest>=9.1.1",
     "python-dotenv>=1.2.3",
     "requests>=2.34.2",
+    "wikipedia-api>=0.16.0",
 ]
 
 [project.scripts]
