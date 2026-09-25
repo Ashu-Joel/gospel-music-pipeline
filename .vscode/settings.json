@@ -1,0 +1,3 @@
+{
+    "dbt.dbtPythonPathOverride": "/home/bethel_city/gospel_music_pipeline/.venv/bin/python3"
+}
