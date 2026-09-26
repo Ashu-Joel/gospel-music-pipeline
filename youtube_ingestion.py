@@ -207,32 +207,34 @@ def main ():
 
     logger.info(f"Starting Ingestion run for {ingestion_date}")
 
-    all_search_results = []
+    seen_video_ids = set()
+    seen_channel_ids = set()
 
     for term in SEARCH_TERMS:
-        all_search_results.extend(search_videos(term))
+        video_ids = []
+        for item in search_videos(term):
+            video_id = item.get("id", {}).get("videoId")
+            if video_id and video_id not in seen_video_ids:
+                seen_video_ids.add(video_id)
+                video_ids.append(video_id)
 
-    video_ids = list({
-        item.get("id", {}).get("videoId")
-        for item in all_search_results
-        if item.get("id", {}).get("videoId")
-    })
-    if not video_ids:
-        logger.warning("No videos found for any search term")
-        yield [], []
-        return
+        if not video_ids:
+            logger.info("No new videos found for %s", term)
+            continue
 
-    logger.info(f"Discovered {len(video_ids)} unique videos")
-    videos = get_video_details(video_ids)
+        logger.info("Discovered %d new videos for %s", len(video_ids), term)
+        videos = get_video_details(video_ids)
 
-    channel_ids = list({
-        video.get("snippet", {}).get("channelId")
-        for video in videos
-        if video.get("snippet", {}).get("channelId")
-    })
-    logger.info(f"Discovered {len(channel_ids)} unique channels")
-    channels = get_channel_details(channel_ids)
-    yield videos, channels
+        channel_ids = []
+        for video in videos:
+            channel_id = video.get("snippet", {}).get("channelId")
+            if channel_id and channel_id not in seen_channel_ids:
+                seen_channel_ids.add(channel_id)
+                channel_ids.append(channel_id)
+
+        logger.info("Discovered %d new channels for %s", len(channel_ids), term)
+        channels = get_channel_details(channel_ids)
+        yield videos, channels
 
 if __name__ == "__main__":
     configure_logging()
